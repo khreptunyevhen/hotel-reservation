@@ -1,10 +1,22 @@
+import { Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout";
+import Reservation from "./Pages/Reservation"
+import AboutUs from "./Pages/AboutUs"
+import Reports from "./Pages/Reports"
+import FAQ from "./Pages/FAQ"
+import Contacts from "./Pages/Contacts"
+
 function App() {
   return (
-    <>
-      <h1 className="mx-auto p-4 text-center text-3xl font-bold text-red-300">
-        Hello
-      </h1>
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index path="/" element={<AboutUs />} />
+        <Route path="future-reservation" element={<Reservation />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="faq" element={<FAQ />} />
+        <Route path="contacts" element={<Contacts />} />
+      </Route>
+    </Routes>
   );
 }
 
