@@ -10,10 +10,10 @@ function Reservation() {
   const [error, setError] = useState(null)
   const [reservationData, setReservationData] = useState(null)
 
-  const accessibleReservationRoom = reservationData.filter(reservation => reservation.status !== "canceled")
+  const accessibleReservationRoom = reservationData?.filter(reservation => reservation.status !== "canceled")
 
-  const importantReservationData = accessibleReservationRoom.map(reservation => {
-    const pureReservationInfo = {};
+  const importantReservationData = accessibleReservationRoom?.map(reservation => {
+    const pureReservationInfo = {}
 
     importantColumns.forEach(column => {
       pureReservationInfo[column] = reservation[column]
@@ -50,7 +50,15 @@ function Reservation() {
       const worksheetName = workbook.SheetNames[0]
       const worksheet = workbook.Sheets[worksheetName]
       const data = XLSX.utils.sheet_to_json(worksheet)
-      setReservationData(data)
+      const isCorrectExcelFile = Object.keys(data[0]).filter(key => importantColumns.includes(key)).length === importantColumns.length;
+
+      if (isCorrectExcelFile) {
+        setReservationData(data)
+        setError(null)
+      } else {
+        setReservationData(null)
+        setError("Invalid excel file! Please check important columns!")
+      }
     }
   }
 
