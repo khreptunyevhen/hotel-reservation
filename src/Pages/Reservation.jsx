@@ -5,7 +5,7 @@ const importantColumns = [
 ]
 
 function Reservation() {
-  const { reservationData, error, handleSubmitFile, handleFile } = useReservationData()
+  const { reservationData } = useReservationData()
 
   const accessibleReservationRoom = reservationData?.filter(reservation => reservation.status !== "canceled")
 
@@ -22,13 +22,6 @@ function Reservation() {
   return (
     <section>
       <h2>Future reservation</h2>
-      <form onSubmit={handleSubmitFile}>
-        <input type="file" required onChange={handleFile} />
-        <button type="submit">Upload</button>
-        {
-          error ? <p role="alert">{error}</p> : null
-        }
-      </form>
       <div>
         {
           reservationData ? <table>
@@ -40,7 +33,6 @@ function Reservation() {
               </tr>
             </thead>
             <tbody>
-
               {
                 importantReservationData.map((reservationInfo, i) => (
                   <tr key={`reservation-info-${i}`}>
