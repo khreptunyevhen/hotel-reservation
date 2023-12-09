@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 function Navigation() {
   return (
     <nav>
-      <ul className="flex items-center justify-between md:flex-col md:items-start">
+      <ul>
         <li>
           <NavLink to="/">About us</NavLink>
         </li>
