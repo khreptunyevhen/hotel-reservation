@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { useReservationData } from "../context/reservationDataContext"
 
 const importantColumns = [
@@ -43,7 +44,7 @@ function Reservation() {
                 ))
               }
             </tbody>
-          </table> : <p>No file is uploaded yet!</p>
+          </table> : <p>No file is uploaded yet! You can upload <Link to="/">here</Link>.</p>
         }
       </div>
     </section>

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { jsPDF } from "jspdf"
 import autoTable from 'jspdf-autotable'
 import { useReservationData } from "../context/reservationDataContext"
+import { Link } from "react-router-dom"
 
 const importantColumns = [
   "owner", "unit", "price", "owner email"
@@ -40,6 +41,9 @@ function Reports() {
       <button onClick={generatePDF} type="button">Download report</button>
       {
         error ? <p>{error}</p> : null
+      }
+      {
+        reservationData ? <p>The file is uploaded! You can download your report!</p> : <p>No file is uploaded yet! You can upload <Link to="/">here</Link>.</p>
       }
     </section>
   )
