@@ -1,0 +1,19 @@
+{
+  "name": "hotel-reservation",
+  "version": "1.0.0",
+  "description": "Server side for the hotel-reservation application",
+  "main": "index.js",
+  "scripts": {
+    "nodemon": "nodemon server.js"
+  },
+  "author": "Yevhen Khreptun",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
