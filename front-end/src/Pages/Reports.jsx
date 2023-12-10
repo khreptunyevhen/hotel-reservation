@@ -14,6 +14,7 @@ function Reports() {
 
   const accessibleReservationRoom = reservationData?.filter(reservation => reservation.status !== "canceled")
 
+  // TODO: fix error when click before upload file
   function generatePDF() {
     const report = new jsPDF()
 
