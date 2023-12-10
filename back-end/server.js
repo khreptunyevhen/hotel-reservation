@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/send-emails", async (req, res) => {
-  const { emails, subject, body } = req.body;
+  const { email, subject, body } = req.body;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -26,24 +26,24 @@ app.post("/send-emails", async (req, res) => {
       },
     });
 
-    for (const email of emails) {
-      const mailOptions = {
-        from: {
-          name: "ReservationPro",
-          address: process.env.GMAIL_USER,
-        }, // sender address
-        to: [email], // list of receivers
-        // cc: ["d.chubenko996@gmail.com"],
-        subject, // Subject line
-        text: body, // plain text body
-        // html: "<b>Hello world?</b>", // html body
-      };
+    const mailOptions = {
+      from: {
+        name: "ReservationPro",
+        address: process.env.GMAIL_USER,
+      }, // sender address
+      to: email, // list of receivers
+      // cc: ["d.chubenko996@gmail.com"],
+      subject, // Subject line
+      text: body, // plain text body
+      // html: "<b>Hello world?</b>", // html body
+    };
 
-      await transporter.sendMail(mailOptions);
-      console.log("Email has been sent!");
-    }
+    await transporter.sendMail(mailOptions);
+    console.log("Email has been sent!");
+    res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

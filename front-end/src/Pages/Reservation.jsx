@@ -28,23 +28,41 @@ function Reservation() {
   // TODO: fix error when click before upload file
   const sendEmails = async () => {
     try {
-      const emailAddresses = Array.from(new Set(reservationData.map((reservation) => reservation['owner email'])));
+      const uniqueEmails = Array.from(new Set(accessibleReservationRoom.map((reservation) => reservation['owner email'])))
 
-      const response = await axios.post(`${BASE_URL}send-emails`, {
-        emails: emailAddresses,
-        subject: 'Your Subject',
-        body: 'Your Email Body',
-      });
+      for (const email of uniqueEmails) {
+        const ownerReservations = accessibleReservationRoom.filter(reservation => reservation["owner email"] === email).sort((a, b) => a.unit - b.unit)
+        const units = [...new Set(ownerReservations.map(unit => unit.unit))]
 
-      if (response.data.success) {
-        setError(null);
-        console.log('Emails sent successfully!');
-      } else {
-        setError('Unsuccessfully response');
+        const subject = `Your ${units.length === 1 ? "unit" : "units"} ${units.join(", ")} ${units.length === 1 ? "has" : "have"} been reserved!`
+
+        const body = ownerReservations.map(reservation => `Unit: ${reservation.unit} Check-in: ${reservation['check-in']} Check-out: ${reservation['check-out']}`).join("\n")
+
+        await axios.post(`${BASE_URL}send-emails`, {
+          email,
+          subject,
+          body,
+        });
       }
+
+      setError(null)
+      console.log('Emails sent successfully!')
+
+      // const response = await axios.post(`${BASE_URL}send-emails`, {
+      //   emails: uniqueEmails,
+      //   subject: 'Your Subject',
+      //   body: 'Your Email Body',
+      // });
+
+      // if (response.data.success) {
+      //   setError(null);
+      //   console.log('Emails sent successfully!');
+      // } else {
+      //   setError('Unsuccessfully response');
+      // }
     } catch (error) {
-      console.error(error);
-      setError('Failed to send emails');
+      console.error(error)
+      setError('Failed to send emails')
     }
   };
 
