@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom"
 import { useReservationData } from "../context/reservationDataContext"
+import Title from '../components/Title';
 
 const importantColumns = [
   "owner", "unit", "check-in", "check-out"
@@ -66,7 +67,7 @@ function Reservation() {
 
   return (
     <section>
-      <h2>Future reservation</h2>
+      <Title>Future reservation</Title>
       <div>
         {
           accessibleReservationRooms ? <table>

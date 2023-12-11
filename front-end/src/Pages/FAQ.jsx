@@ -1,6 +1,10 @@
+import Title from "../components/Title"
+
 function FAQ() {
   return (
-    <div>FAQ</div>
+    <section>
+      <Title>FAQ</Title>
+    </section>
   )
 }
 

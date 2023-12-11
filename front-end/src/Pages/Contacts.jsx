@@ -1,6 +1,10 @@
+import Title from "../components/Title"
+
 function Contacts() {
   return (
-    <div>Contacts</div>
+    <section>
+      <Title>Contacts</Title>
+    </section>
   )
 }
 

@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom"
 import { useReservationData } from "../context/reservationDataContext"
+import Title from "../components/Title"
 
 function AboutUs() {
   const { handleFile, handleSubmitFile, error, reservationData } = useReservationData()
 
   return (
     <div>
-      <h2>Who are we?</h2>
+      <Title>Who are we?</Title>
       <p>ReservationPro is your trusted partner in efficient room reservation management. Our platform simplifies the booking process, provides a glimpse into future reservations, and generates detailed reports on earnings. Whether you are a hotel, resort, or property owner, maximize your efficiency and revenue with ReservationPro. Experience streamlined operations, increased financial visibility, and enhanced customer satisfaction. Join us today for a seamless reservation experience and optimized business performance.</p>
       <p>If you would like to know your reservation or reports please unload excel file.</p>
       <form onSubmit={handleSubmitFile}>

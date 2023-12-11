@@ -3,6 +3,7 @@ import { jsPDF } from "jspdf"
 import autoTable from 'jspdf-autotable'
 import { useReservationData } from "../context/reservationDataContext"
 import { Link } from "react-router-dom"
+import Title from "../components/Title"
 
 const importantColumns = [
   "owner", "unit", "price", "owner email"
@@ -36,7 +37,7 @@ function Reports() {
 
   return (
     <section>
-      <h2>Reports</h2>
+      <Title>Reports</Title>
       <button onClick={generatePDF} type="button">Download report</button>
       {
         error ? <p>{error}</p> : null
