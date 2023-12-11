@@ -1,24 +1,46 @@
-import { NavLink } from "react-router-dom"
+import { Home, BookOpenCheck, FileOutput, HelpCircle, Contact } from 'lucide-react'
+import NavigationItem from './NavigationItem'
+
+const menuItems = [
+  {
+    id: 0,
+    text: "About us",
+    link: "/",
+    icon: <Home />
+  },
+  {
+    id: 1,
+    text: "Reservations",
+    link: "future-reservations",
+    icon: <BookOpenCheck />
+  },
+  {
+    id: 2,
+    text: "Reports",
+    link: "reports",
+    icon: <FileOutput />
+  },
+  {
+    id: 3,
+    text: "FAQ",
+    link: "faq",
+    icon: <HelpCircle />
+  },
+  {
+    id: 4,
+    text: "Contacts",
+    link: "contacts",
+    icon: <Contact />
+  },
+]
 
 function Navigation() {
   return (
-    <nav>
-      <ul>
-        <li>
-          <NavLink to="/">About us</NavLink>
-        </li>
-        <li>
-          <NavLink to="future-reservation">Future reservation</NavLink>
-        </li>
-        <li>
-          <NavLink to="reports">Reports</NavLink>
-        </li>
-        <li>
-          <NavLink to="faq">FAQ</NavLink>
-        </li>
-        <li>
-          <NavLink to="contacts">Contacts</NavLink>
-        </li>
+    <nav className="hidden md:block md:w-1/4 shrink-0 bg-background pt-8">
+      <ul className="flex flex-col">
+        {
+          menuItems.map(menuItem => <NavigationItem key={menuItem.id} menuItem={menuItem} />)
+        }
       </ul>
     </nav>
   )

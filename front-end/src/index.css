@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --text: #181302;
+    --background: #fefcf1;
+    --primary: #f0cc19;
+    --secondary: #ecf6fc;
+    --accent: #4957f3;
+  }
+
+  .dark {
+    --text: #fdf8e7;
+    --background: #0e0c01;
+    --primary: #e6c20f;
+    --secondary: #ecf6fc;
+    --accent: #0c1ab6;
+  }
+}
+
+a.active {
+  @apply bg-accent text-background hover:bg-accent rounded-lg;
+}

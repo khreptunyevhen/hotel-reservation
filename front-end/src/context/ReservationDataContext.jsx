@@ -12,6 +12,8 @@ function ReservationDataProvider({ children }) {
   const [error, setError] = useState(null)
   const [reservationData, setReservationData] = useState(null)
 
+  const accessibleReservationRooms = reservationData?.filter(reservation => reservation.status !== "canceled")
+
   function handleFile(e) {
     let selectedFile = e.target.files[0];
     let fileTypes = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel", "text/csv"]
@@ -53,7 +55,7 @@ function ReservationDataProvider({ children }) {
   }
 
   return (
-    <ReservationDataContext.Provider value={{ error, reservationData, handleFile, handleSubmitFile }}>
+    <ReservationDataContext.Provider value={{ error, reservationData, accessibleReservationRooms, handleFile, handleSubmitFile }}>
       {children}
     </ReservationDataContext.Provider>
   )

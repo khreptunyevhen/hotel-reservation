@@ -10,12 +10,10 @@ const importantColumns = [
 const BASE_URL = "http://localhost:7000/"
 
 function Reservation() {
-  const { reservationData } = useReservationData()
+  const { accessibleReservationRooms } = useReservationData()
   const [error, setError] = useState(null)
 
-  const accessibleReservationRoom = reservationData?.filter(reservation => reservation.status !== "canceled")
-
-  const importantReservationData = accessibleReservationRoom?.map(reservation => {
+  const importantReservationData = accessibleReservationRooms?.map(reservation => {
     const pureReservationInfo = {}
 
     importantColumns.forEach(column => {
@@ -28,10 +26,10 @@ function Reservation() {
   // TODO: fix error when click before upload file
   const sendEmails = async () => {
     try {
-      const uniqueEmails = Array.from(new Set(accessibleReservationRoom.map((reservation) => reservation['owner email'])))
+      const uniqueEmails = Array.from(new Set(accessibleReservationRooms.map((reservation) => reservation['owner email'])))
 
       for (const email of uniqueEmails) {
-        const ownerReservations = accessibleReservationRoom.filter(reservation => reservation["owner email"] === email).sort((a, b) => a.unit - b.unit)
+        const ownerReservations = accessibleReservationRooms.filter(reservation => reservation["owner email"] === email).sort((a, b) => a.unit - b.unit)
         const units = [...new Set(ownerReservations.map(unit => unit.unit))]
 
         const subject = `Your ${units.length === 1 ? "unit" : "units"} ${units.join(", ")} ${units.length === 1 ? "has" : "have"} been reserved!`
@@ -71,7 +69,7 @@ function Reservation() {
       <h2>Future reservation</h2>
       <div>
         {
-          reservationData ? <table>
+          accessibleReservationRooms ? <table>
             <thead>
               <tr>
                 {

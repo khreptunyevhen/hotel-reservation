@@ -10,9 +10,7 @@ const importantColumns = [
 
 function Reports() {
   const [error, setError] = useState(null)
-  const { reservationData } = useReservationData()
-
-  const accessibleReservationRoom = reservationData?.filter(reservation => reservation.status !== "canceled")
+  const { accessibleReservationRooms } = useReservationData()
 
   // TODO: fix error when click before upload file
   function generatePDF() {
@@ -22,13 +20,13 @@ function Reports() {
 
     report.autoTable({
       head: [importantColumns.map(header => header)],
-      body: accessibleReservationRoom.map(row =>
+      body: accessibleReservationRooms.map(row =>
         importantColumns.map(col => row[col])
       ),
       startY: 40,
     })
 
-    if (reservationData) {
+    if (accessibleReservationRooms) {
       report.save(`${"main"}-report.pdf`)
       setError(null)
     } else {
@@ -44,7 +42,7 @@ function Reports() {
         error ? <p>{error}</p> : null
       }
       {
-        reservationData ? <p>The file is uploaded! You can download your report!</p> : <p>No file is uploaded yet! You can upload <Link to="/">here</Link>.</p>
+        accessibleReservationRooms ? <p>The file is uploaded! You can download your report!</p> : <p>No file is uploaded yet! You can upload <Link to="/">here</Link>.</p>
       }
     </section>
   )
