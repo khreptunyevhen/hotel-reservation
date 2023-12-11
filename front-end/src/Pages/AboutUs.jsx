@@ -1,29 +1,32 @@
 import { Link } from "react-router-dom"
 import { useReservationData } from "../context/reservationDataContext"
 import Title from "../components/Title"
+import AboutUsDescription from "../components/AboutUsDescription"
+import UploadFileForm from "../components/UploadFileForm"
+import AdditionalNotification from "../components/UI/AdditionalNotification"
+import Notification from "../components/UI/Notification"
+import { ThumbsUp } from 'lucide-react'
 
 function AboutUs() {
-  const { handleFile, handleSubmitFile, error, reservationData } = useReservationData()
+  const { error, reservationData } = useReservationData()
 
   return (
-    <div>
+    <section>
       <Title>Who are we?</Title>
-      <p>ReservationPro is your trusted partner in efficient room reservation management. Our platform simplifies the booking process, provides a glimpse into future reservations, and generates detailed reports on earnings. Whether you are a hotel, resort, or property owner, maximize your efficiency and revenue with ReservationPro. Experience streamlined operations, increased financial visibility, and enhanced customer satisfaction. Join us today for a seamless reservation experience and optimized business performance.</p>
-      <p>If you would like to know your reservation or reports please unload excel file.</p>
-      <form onSubmit={handleSubmitFile}>
-        <input type="file" required onChange={handleFile} />
-        <button type="submit">Upload</button>
-        {
-          error ? <p role="alert">{error}</p> : null
-        }
-      </form>
+      <AboutUsDescription />
+      <UploadFileForm />
       {
-        reservationData && !error ? <p role="alert">The file was uploaded successfully!</p> : null
+        reservationData && !error ? <Notification>
+          <ThumbsUp className="text-green-500" />
+          <p role="alert" className="mb-0">The file was uploaded successfully!</p>
+        </Notification> : null
       }
       {
-        reservationData && !error ? <p>Now you can go to <Link to="future-reservation">future reservation</Link> or <Link to="reports">reports</Link> pages to know more about your stuff.</p> : null
+        reservationData && !error ? <AdditionalNotification>
+          <p>Now you can see <Link className="underline font-medium hover:text-primary transition duration-300" to="future-reservations">future reservations</Link> for your units or download <Link className="underline font-medium hover:text-primary transition duration-300" to="reports">reports</Link>.</p>
+        </AdditionalNotification> : null
       }
-    </div>
+    </section>
   )
 }
 

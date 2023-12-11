@@ -20,6 +20,12 @@
   }
 }
 
+@layer components {
+  p {
+    @apply mb-4;
+  }
+}
+
 a.active {
   @apply bg-accent text-background hover:bg-accent rounded-lg;
 }
