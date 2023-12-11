@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react'
+import axios from 'axios'
 import { Link } from "react-router-dom"
 import { useReservationData } from "../context/reservationDataContext"
-import Title from '../components/Title';
+import Title from '../components/Title'
+import Notification from "../components/UI/Notification"
+import { AlertTriangle } from 'lucide-react'
+import Button from '../components/UI/Button'
 
 const importantColumns = [
   "owner", "unit", "check-in", "check-out"
@@ -89,12 +92,17 @@ function Reservation() {
                 ))
               }
             </tbody>
-          </table> : <p>No file is uploaded yet! You can upload <Link to="/">here</Link>.</p>
+          </table> : <Notification>
+            <AlertTriangle className='text-red-500' />
+            <p className='mb-0'>No file is uploaded yet! You can upload <Link className="underline font-medium hover:text-primary transition duration-300" to="/">here</Link>.</p>
+          </Notification>
         }
       </div>
-      <button onClick={sendEmails} type="button">
-        Send Emails
-      </button>
+      {
+        accessibleReservationRooms ? <Button onClick={sendEmails} type="button">
+          Send Emails
+        </Button> : null
+      }
       {error && <p>{error}</p>}
     </section>
   )

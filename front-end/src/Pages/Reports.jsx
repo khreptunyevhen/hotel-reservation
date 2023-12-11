@@ -4,6 +4,9 @@ import autoTable from 'jspdf-autotable'
 import { useReservationData } from "../context/reservationDataContext"
 import { Link } from "react-router-dom"
 import Title from "../components/Title"
+import Notification from "../components/UI/Notification"
+import { AlertTriangle, ThumbsUp } from 'lucide-react'
+import Button from "../components/UI/Button"
 
 const importantColumns = [
   "owner", "unit", "price", "owner email"
@@ -38,14 +41,25 @@ function Reports() {
   return (
     <section>
       <Title>Reports</Title>
-      <button onClick={generatePDF} type="button">Download report</button>
+      {
+        accessibleReservationRooms ?
+          <Notification>
+            <ThumbsUp className="text-green-500" />
+            <p className='mb-0'>The file is uploaded! You can download your report!</p>
+          </Notification>
+          :
+          <Notification>
+            <AlertTriangle className='text-red-500' />
+            <p className='mb-0'>No file is uploaded yet! You can upload <Link className="underline font-medium hover:text-primary transition duration-300" to="/">here</Link>.</p>
+          </Notification>
+      }
+      {
+        accessibleReservationRooms ? <Button onClick={generatePDF} type="button">Download report</Button> : null
+      }
       {
         error ? <p>{error}</p> : null
       }
-      {
-        accessibleReservationRooms ? <p>The file is uploaded! You can download your report!</p> : <p>No file is uploaded yet! You can upload <Link to="/">here</Link>.</p>
-      }
-    </section>
+    </section >
   )
 }
 
