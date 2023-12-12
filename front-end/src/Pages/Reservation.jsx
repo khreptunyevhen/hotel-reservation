@@ -6,10 +6,7 @@ import Title from '../components/Title'
 import Notification from "../components/UI/Notification"
 import { AlertTriangle } from 'lucide-react'
 import Button from '../components/UI/Button'
-
-const importantColumns = [
-  "owner", "unit", "check-in", "check-out"
-]
+import ReservationsTable from '../components/ReservationsTable'
 
 const BASE_URL = "http://localhost:7000/"
 
@@ -17,15 +14,13 @@ function Reservation() {
   const { accessibleReservationRooms } = useReservationData()
   const [error, setError] = useState(null)
 
-  const importantReservationData = accessibleReservationRooms?.map(reservation => {
-    const pureReservationInfo = {}
+  const countUniqueUnits = [...new Set(accessibleReservationRooms.map(reservation => reservation.unit)
+  )].length;
 
-    importantColumns.forEach(column => {
-      pureReservationInfo[column] = reservation[column]
-    })
+  const countUniqueOwners = [...new Set(accessibleReservationRooms.map(reservation => reservation.owner)
+  )].length;
 
-    return pureReservationInfo
-  })
+  console.log(accessibleReservationRooms[0]["check-out"] - accessibleReservationRooms[0]["check-in"]);
 
   // TODO: fix error when click before upload file
   const sendEmails = async () => {
@@ -48,20 +43,6 @@ function Reservation() {
       }
 
       setError(null)
-      console.log('Emails sent successfully!')
-
-      // const response = await axios.post(`${BASE_URL}send-emails`, {
-      //   emails: uniqueEmails,
-      //   subject: 'Your Subject',
-      //   body: 'Your Email Body',
-      // });
-
-      // if (response.data.success) {
-      //   setError(null);
-      //   console.log('Emails sent successfully!');
-      // } else {
-      //   setError('Unsuccessfully response');
-      // }
     } catch (error) {
       console.error(error)
       setError('Failed to send emails')
@@ -70,38 +51,38 @@ function Reservation() {
 
   return (
     <section>
-      <Title>Future reservation</Title>
-      <div>
+      <Title>Future reservations</Title>
+      <div className="p-4 bg-background rounded-lg mb-4">
         {
-          accessibleReservationRooms ? <table>
-            <thead>
-              <tr>
-                {
-                  Object.keys(importantReservationData[0]).map((title, i) => <th key={`table-title-${i}`}>{title}</th>)
-                }
-              </tr>
-            </thead>
-            <tbody>
-              {
-                importantReservationData.map((reservationInfo, i) => (
-                  <tr key={`reservation-info-${i}`}>
-                    {
-                      Object.keys(reservationInfo).map((unit, i) => <td key={`unit-${i}`}>{reservationInfo[unit]}</td>)
-                    }
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table> : <Notification>
+          accessibleReservationRooms ? <>
+            <div className="flex items-center justify-between mb-4">
+              <h2>Details</h2>
+              <form>
+                <select>
+                  <option>all owners</option>
+                  <option>options</option>
+                </select>
+                <input type="search" placeholder='🔎 search' />
+              </form>
+            </div>
+            <ReservationsTable />
+            <p className="flex items-center justify-between mb-0">
+              <span>Showing 1 to X of X reservations</span>
+              <span className="cursor-pointer">prev 1 ... X next</span>
+            </p>
+          </> : <Notification>
             <AlertTriangle className='text-red-500' />
             <p className='mb-0'>No file is uploaded yet! You can upload <Link className="underline font-medium hover:text-primary transition duration-300" to="/">here</Link>.</p>
           </Notification>
         }
       </div>
       {
-        accessibleReservationRooms ? <Button onClick={sendEmails} type="button">
-          Send Emails
-        </Button> : null
+        accessibleReservationRooms ? <div>
+          <p>You can send owners emails with all the information they need!</p>
+          <Button onClick={sendEmails} type="button">
+            Send Emails
+          </Button>
+        </div> : null
       }
       {error && <p>{error}</p>}
     </section>
