@@ -1,4 +1,4 @@
-import { Home, BookOpenCheck, FileOutput, HelpCircle, Contact } from 'lucide-react'
+import { Home, BookOpenCheck, FileOutput, HelpCircle, Contact, Settings } from 'lucide-react'
 import NavigationItem from './NavigationItem'
 
 const menuItems = [
@@ -31,6 +31,12 @@ const menuItems = [
     text: "Contacts",
     link: "contacts",
     icon: <Contact />
+  },
+  {
+    id: 5,
+    text: "Settings",
+    link: "settings",
+    icon: <Settings />
   },
 ]
 

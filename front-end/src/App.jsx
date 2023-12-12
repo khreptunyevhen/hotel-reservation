@@ -5,6 +5,7 @@ import AboutUs from "./Pages/AboutUs"
 import Reports from "./Pages/Reports"
 import FAQ from "./Pages/FAQ"
 import Contacts from "./Pages/Contacts"
+import Settings from "./Pages/Settings";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="reports" element={<Reports />} />
         <Route path="faq" element={<FAQ />} />
         <Route path="contacts" element={<Contacts />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
     </Routes>
   );
