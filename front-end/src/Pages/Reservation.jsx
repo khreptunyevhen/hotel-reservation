@@ -7,8 +7,10 @@ import Notification from "../components/UI/Notification";
 import { AlertTriangle } from "lucide-react";
 import Button from "../components/UI/Button";
 import ReservationsTable from "../components/ReservationsTable";
+import InfoBox from "../components/InfoBox";
 
 const BASE_URL = "http://localhost:7000/";
+const PROFIT_PERCENT = 0.15;
 
 function Reservation() {
   const { accessibleReservationRooms } = useReservationData();
@@ -26,6 +28,19 @@ function Reservation() {
 
   const searchByOwnerData = ownerFiltered?.filter((owner) =>
     owner.owner.toLowerCase().includes(searchByOwner.toLowerCase()),
+  );
+
+  const ownersCount = [
+    ...new Set(searchByOwnerData?.map((ownerInfo) => ownerInfo.owner)),
+  ].length;
+
+  const unitsCount = [
+    ...new Set(searchByOwnerData?.map((ownerInfo) => ownerInfo.unit)),
+  ].length;
+
+  const totalMoney = searchByOwnerData?.reduce(
+    (price, ownerInfo) => price + ownerInfo.price,
+    0,
   );
 
   // TODO: fix error when click before upload file
@@ -76,6 +91,18 @@ function Reservation() {
   return (
     <section>
       <Title>Future reservations</Title>
+      {accessibleReservationRooms ? (
+        <div className="mb-8 flex items-center space-x-8">
+          <InfoBox name="owners" value={ownersCount} />
+          <InfoBox name="units" value={unitsCount} />
+          <InfoBox name="days" value={16} />
+          <InfoBox name="money" value={totalMoney} />
+          <InfoBox
+            name="our %"
+            value={Math.floor(totalMoney * PROFIT_PERCENT)}
+          />
+        </div>
+      ) : null}
       <div className="mb-4 rounded-lg bg-background p-4">
         {accessibleReservationRooms ? (
           <>
