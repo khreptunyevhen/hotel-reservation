@@ -13,14 +13,15 @@ const BASE_URL = "http://localhost:7000/";
 function Reservation() {
   const { accessibleReservationRooms } = useReservationData();
   const [error, setError] = useState(null);
+  const [filter, setFilter] = useState("all");
 
-  // const countUniqueUnits = [...new Set(accessibleReservationRooms.map(reservation => reservation.unit)
-  // )].length;
+  const uniqueOwners = [
+    ...new Set(accessibleReservationRooms?.map((owner) => owner.owner)),
+  ];
 
-  // const countUniqueOwners = [...new Set(accessibleReservationRooms.map(reservation => reservation.owner)
-  // )].length;
-
-  // console.log(accessibleReservationRooms[0]["check-out"] - accessibleReservationRooms[0]["check-in"]);
+  const ownerFiltered = accessibleReservationRooms.filter((owner) =>
+    filter === "all" ? owner.owner : owner.owner === filter,
+  );
 
   // TODO: fix error when click before upload file
   const sendEmails = async () => {
@@ -75,16 +76,21 @@ function Reservation() {
             <div className="mb-4 flex items-center justify-between">
               <h2>Details</h2>
               <form>
-                <select>
-                  <option>all owners</option>
-                  <option>TD</option>
-                  <option>VD</option>
-                  <option>LM</option>
+                <select
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                >
+                  <option value="all">all owners</option>
+                  {uniqueOwners?.map((owner) => (
+                    <option key={owner} value={owner}>
+                      {owner}
+                    </option>
+                  ))}
                 </select>
                 <input type="search" placeholder="🔎 search" />
               </form>
             </div>
-            <ReservationsTable />
+            <ReservationsTable info={ownerFiltered} />
             <p className="mb-0 flex items-center justify-between">
               <span>Showing 1 to X of X reservations</span>
               <span className="cursor-pointer">prev 1 ... X next</span>
