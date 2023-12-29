@@ -14,14 +14,21 @@ function Reservation() {
   const { accessibleReservationRooms } = useReservationData();
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("all");
+  const [searchByOwner, setSearchByOwner] = useState("");
 
   const uniqueOwners = [
     ...new Set(accessibleReservationRooms?.map((owner) => owner.owner)),
   ];
 
-  const ownerFiltered = accessibleReservationRooms.filter((owner) =>
+  const ownerFiltered = accessibleReservationRooms?.filter((owner) =>
     filter === "all" ? owner.owner : owner.owner === filter,
   );
+
+  const searchByOwnerData = ownerFiltered?.filter((owner) =>
+    owner.owner.toLowerCase().includes(searchByOwner.toLowerCase()),
+  );
+
+  console.log(searchByOwnerData);
 
   // TODO: fix error when click before upload file
   const sendEmails = async () => {
@@ -87,10 +94,17 @@ function Reservation() {
                     </option>
                   ))}
                 </select>
-                <input type="search" placeholder="🔎 search" />
+                <input
+                  type="search"
+                  placeholder="🔎 search by owner"
+                  value={searchByOwner}
+                  onChange={(e) => setSearchByOwner(e.target.value)}
+                />
               </form>
             </div>
-            <ReservationsTable info={ownerFiltered} />
+            <ReservationsTable
+              info={searchByOwnerData}
+            />
             <p className="mb-0 flex items-center justify-between">
               <span>Showing 1 to X of X reservations</span>
               <span className="cursor-pointer">prev 1 ... X next</span>
