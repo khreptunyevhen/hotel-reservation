@@ -28,9 +28,8 @@ function Reservation() {
     owner.owner.toLowerCase().includes(searchByOwner.toLowerCase()),
   );
 
-  console.log(searchByOwnerData);
-
   // TODO: fix error when click before upload file
+  // TODO: hide pagination and send email button when no owner found
   const sendEmails = async () => {
     try {
       const uniqueEmails = Array.from(
@@ -80,10 +79,11 @@ function Reservation() {
       <div className="mb-4 rounded-lg bg-background p-4">
         {accessibleReservationRooms ? (
           <>
-            <div className="mb-4 flex items-center justify-between">
-              <h2>Details</h2>
-              <form>
+            <div className="mb-4 flex flex-wrap items-center justify-between">
+              <h2 className="text-lg font-bold">Details</h2>
+              <form className="flex flex-wrap items-center gap-2">
                 <select
+                  className="w-full border border-text p-2 md:w-auto"
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
                 >
@@ -95,6 +95,7 @@ function Reservation() {
                   ))}
                 </select>
                 <input
+                  className="w-full border border-text p-2 outline-none md:w-auto"
                   type="search"
                   placeholder="🔎 search by owner"
                   value={searchByOwner}
@@ -102,9 +103,7 @@ function Reservation() {
                 />
               </form>
             </div>
-            <ReservationsTable
-              info={searchByOwnerData}
-            />
+            <ReservationsTable info={searchByOwnerData} />
             <p className="mb-0 flex items-center justify-between">
               <span>Showing 1 to X of X reservations</span>
               <span className="cursor-pointer">prev 1 ... X next</span>
